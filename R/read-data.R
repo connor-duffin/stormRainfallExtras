@@ -48,9 +48,21 @@ data_transform <- function(site_data, min_year = 0, min_month = 0){
     min_year_site <- 1876
 	}
 
-	iod <- readRDS('iod.rds')
-	sam <- readRDS('sam.rds')
-	soi <- readRDS('soi.rds')
+  if (file.exists('iod.rds')) {
+    iod <- readRDS('iod.rds')
+  } else {
+    iod <- climatedata::load_iod()
+  }
+  if (file.exists('sam.rds')) {
+    sam <- readRDS('sam.rds')
+  } else {
+    sam <- climatedata::load_sam(data_source = 'hadslp2')
+  }
+  if (file.exists('soi.rds')) {
+    soi <- readRDS('soi.rds')
+  } else {
+    soi <- climatedata::load_soi()
+  }
 	iod <- subset(iod, year >= min_year_site)
 	sam <- subset(sam, year >= min_year_site)
 	soi <- subset(soi, year >= min_year_site)
@@ -58,7 +70,7 @@ data_transform <- function(site_data, min_year = 0, min_month = 0){
 	site_data <- subset(site_data, year >= min_year_site & year < 2017)
 	found <- FALSE
   del_index <- 1	
-	while(found == FALSE)	{
+	while (found == FALSE)	{
 	if (site_data$month[del_index] == min_month){
 			found <- TRUE
 		} else {
@@ -66,7 +78,7 @@ data_transform <- function(site_data, min_year = 0, min_month = 0){
 		}
 	}	
 
-  if(min_month != 1){
+  if (min_month != 1) {
 	  iod <- iod[-c(1:min_month - 1), ]
 	  sam <- sam[-c(1:min_month - 1), ]
 	  soi <- soi[-c(1:min_month - 1), ]
@@ -83,7 +95,7 @@ data_transform <- function(site_data, min_year = 0, min_month = 0){
   i <- 2
 	covariate_index[1] <- 1
 
-	while(i <= n) {
+	while (i <= n) {
 		if (site_data$month[i] == site_data$month[i - 1]) {
 			covariate_index[i] = j
 		} else { 

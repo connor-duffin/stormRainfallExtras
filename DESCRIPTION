@@ -6,7 +6,7 @@ Author: Connor Duffin
 Maintainer: Connor Duffin <connor.p.duffin@gmail.com>
 Description: Functions to make rainfall modelling with storm simple, and to
     easily produce storm output objects.
-Imports:
+Depends:
     lubridate,
     parallel,
     plyr,

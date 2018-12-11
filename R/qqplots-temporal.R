@@ -1,18 +1,18 @@
-# Converts probabilities into nice groups for plotting
-get_quantile_factor <- function(p) {
-  output <- rep('0-10%', length(p))
-  output[p > 0.10] <- '10-25%'
-  output[p > 0.25] <- '25-50%'
-  output[p > 0.50] <- '50-75%'
-  output[p > 0.75] <- '75-90%'
-  output[p > 0.90] <- '90-99%'
-  output[p > 0.99] <- '99%+'
-  as.factor(output)
-}
-
 # Compute quantiles for a given time period
 qq_data_for_period <- function(sampler_results, y_sample, months, period_name, 
                                probabilities) {
+  # Converts probabilities into nice groups for plotting
+  get_quantile_factor <- function(p) {
+    output <- rep('0-10%', length(p))
+    output[p > 0.10] <- '10-25%'
+    output[p > 0.25] <- '25-50%'
+    output[p > 0.50] <- '50-75%'
+    output[p > 0.75] <- '75-90%'
+    output[p > 0.90] <- '90-99%'
+    output[p > 0.99] <- '99%+'
+    as.factor(output)
+  }
+
   # This finds the days that fell within provided months.
   month_indices <- month(sampler_results$data$date) %in% (months - 1)
 
@@ -86,12 +86,12 @@ plot_qq_data <- function(qq_data, legend = 'none') {
     theme(legend.position = legend)
 }
 
-get_legend <- function(a_plot){
-  tmp <- ggplot_gtable(ggplot_build(a_plot))
-  legend <- which(sapply(tmp$grobs, function(x) x$name) == 'guide-box')
-  legend <- tmp$grobs[[legend]]
-  return(legend)
-}
+# get_legend <- function(a_plot){
+#   tmp <- ggplot_gtable(ggplot_build(a_plot))
+#   legend <- which(sapply(tmp$grobs, function(x) x$name) == 'guide-box')
+#   legend <- tmp$grobs[[legend]]
+#   return(legend)
+# }
 
 qq_data_single <- function(data_file, periods, probs, samples = 10, n_cores = 4) {
 	sampler_results <- readRDS(data_file)

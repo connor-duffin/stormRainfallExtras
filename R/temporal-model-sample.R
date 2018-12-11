@@ -1,5 +1,6 @@
 # todo: add different densities
 # todo: add formula to arguments
+# todo change filename for single model
 parallel_logistic_sampler <- function(site_data, ord = 0, iter, burn_in, 
                                       min_components, max_components,
                                       output_dir = './storm-output/', output_file = NA){
@@ -14,7 +15,7 @@ parallel_logistic_sampler <- function(site_data, ord = 0, iter, burn_in,
 											function(x) logistic_sample(iter, burn_in, site_data,
 																							  	rainfall ~ trend + sine + cosine + dmi + sam + soi,
 																							  	rep('gamma', x), 
-                                                  progress = prog, order = ord),
+                                                  order = ord),
 											mc.cores = detectCores()) 
 
   if (is.na(output_file)) {
