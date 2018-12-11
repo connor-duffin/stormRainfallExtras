@@ -1,0 +1,23 @@
+Package: stormRainfallExtras
+Type: Package
+Title: Utility functions for temporal rainfall modelling
+Version: 0.1.0
+Author: Connor Duffin
+Maintainer: Connor Duffin <connor.p.duffin@gmail.com>
+Description: Functions to make rainfall modelling with storm simple, and to
+    easily produce storm output objects.
+Imports:
+    lubridate,
+    parallel,
+    plyr,
+    dplyr,
+    stringr,
+    ggplot2,
+    timeDate,
+    withr,
+    matrixStats,
+    gridExtra,
+    bomdata,
+    storm
+License: MIT
+LazyData: true
