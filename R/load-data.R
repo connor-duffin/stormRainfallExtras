@@ -1,4 +1,9 @@
-# sites can be a string, an integer, or a vector of integers
+#' Load the rainfall data for given site/s.
+#' 
+#' @param db_file A database file to be read from. If not present then it is created.
+#' @param sites A vector of site numbers.
+#' 
+#' @export
 load_rainfall_data <- function(db_file, sites) {
   db_connection <- DBI::dbConnect(RSQLite::SQLite(), db_file)
   bomdata::initialise_db(db_connection)

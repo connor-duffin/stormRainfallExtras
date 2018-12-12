@@ -6,7 +6,7 @@ Author: Connor Duffin
 Maintainer: Connor Duffin <connor.p.duffin@gmail.com>
 Description: Functions to make rainfall modelling with storm simple, and to
     easily produce storm output objects.
-Depends:
+Imports:
     lubridate,
     parallel,
     plyr,
@@ -21,3 +21,4 @@ Depends:
     storm
 License: MIT
 LazyData: true
+RoxygenNote: 6.0.1
