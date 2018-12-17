@@ -7,14 +7,15 @@
 #' @param min_components Minimum number of mixture components (>=2).
 #' @param max_components Maximum number of mixture components.
 #' @param output_dir The output directory for any output files.
-#' @param output_file The output file
+#' @param output_file The output file.
+#' @param n_cores Number of CPU cores to use.
 #'
 #' @return A list of \code{ptsmlogistic} objects (one for each model ran).
 #'
 #' @export
 parallel_marginal_sampler <- function(site_data, iter, burn_in, min_components,
                                       max_components, output_dir = "./storm-output/",
-                                      output_file = NA) {
+                                      output_file = NA, n_cores = 1) {
   if (!dir.exists(output_dir)) {
     dir.create(output_dir, recursive = T)
   }
@@ -31,7 +32,7 @@ parallel_marginal_sampler <- function(site_data, iter, burn_in, min_components,
         distributions = rep("gamma", x),
         burn_in = burn_in
       ),
-    mc.cores = detectCores()
+    mc.cores = n_cores
   )
 
   if (is.na(output_file)) {

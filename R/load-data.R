@@ -1,4 +1,4 @@
-#' Load the rainfall data for given site/s.
+#' Load the rainfall data into a database file
 #' 
 #' @param db_file A database file to be read from. If not present then it is created.
 #' @param sites A vector of site numbers.

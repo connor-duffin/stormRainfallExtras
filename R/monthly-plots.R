@@ -1,3 +1,5 @@
+# todo: completely separate functions for zeroes and monthly (from the top)
+
 #' Create the monthly summaries, for a given model.
 #'
 #' @param sampler_results a \code{ptsmlogistic} object.
@@ -6,7 +8,6 @@
 #' @param n_cores Number of cores desired to be used. Recommend setting this as high as you can.
 #'
 #' @export
-# todo: completely separate functions for zeroes and monthly (from the top)
 get_monthly_summaries <- function(sampler_results, y_sample, width, n_cores = 1) {
   quantiles_from_bounds <- function(values, width = 0.8, lower_bound = NA, upper_bound = NA) {
     lower_p <- (1 - width) / 2
@@ -79,7 +80,7 @@ get_monthly_summaries <- function(sampler_results, y_sample, width, n_cores = 1)
     y_sample,
     function(x) x,
     width,
-    mc.cores = n_cores
+    n_cores
   )
   output$no_rain_by_month <- model_fits_by_month(sampler_results,
     y_sample,
@@ -88,7 +89,7 @@ get_monthly_summaries <- function(sampler_results, y_sample, width, n_cores = 1)
     },
     width,
     upper_bound = 1,
-    mc.cores = n_cores
+    n_cores
   )
   return(output)
 }
@@ -153,7 +154,9 @@ print_proportion <- function(summaries) {
 
 #' Generate the monthly summary data for a given site.
 #'
-#' This is a wrapper for \code{\get_monthly_summaries}.
+#' This is a wrapper for \code{\get_monthly_summaries}. Unless you have the
+#' posterior predictive samples ready to go, using this is probably the easiest
+#' way to get the monthly summary data.
 #'
 #' @param data_file An output file from \code{\parallel_logistic_sampler}.
 #' @param int_width Width of the posterior probability interval.
@@ -172,14 +175,14 @@ gen_summary_data <- function(data_file, int_width = 0.8, model = 1,
     start = length(sampler_results$sample$z0) - samples + 1
   )
   y_sample <- storm::logistic_sample_y(sampler_results)$y
-  summaries <- get_summaries(
+  summaries <- get_monthly_summaries(
     sampler_results,
     y_sample,
     int_width,
-    mc.cores = n_cores
+    n_cores
   )
-  summaries$mean_by_month$name <- str_to_title(sampler_results$data$name[1])
-  summaries$no_rain_by_month$name <- str_to_title(sampler_results$data$name[1])
+  summaries$mean_by_month$name <- stringr::str_to_title(sampler_results$data$name[1])
+  summaries$no_rain_by_month$name <- stringr::str_to_title(sampler_results$data$name[1])
 
   mean_month <- as.data.frame(summaries$mean_by_month)
   no_rain_month <- as.data.frame(summaries$no_rain_by_month)
@@ -204,7 +207,9 @@ gen_summary_data_mult <- function(data_files, int_width = 0.8, model = 1,
   no_rain_month <- data.frame()
   n_files <- length(data_files)
   for (i in seq(n_files)) {
-    temp <- gen_summary_data(data_files[i], int_width, "mean", model, samples, n_cores)
+    temp <- gen_summary_data(
+      data_files[i], int_width, "mean", model, samples, n_cores
+    )
     mean_month <- rbind(mean_month, temp[[1]])
     no_rain_month <- rbind(no_rain_month, temp[[2]])
   }

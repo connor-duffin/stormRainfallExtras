@@ -1,6 +1,23 @@
 # todo: add different densities
 # todo: add formula to arguments
 # todo change filename for single model
+
+#' Run marginal MCMC sampler for the given site
+#'
+#' @param site_data A dataframe containing the rainfall measurements. This
+#' column must be called \code{rainfall}.
+#' @param ord Order of the markov chain.
+#' @param iter Number of sampling iterations.
+#' @param burn_in Number of burn-in iterations.
+#' @param min_components Minimum number of mixture components (>=2).
+#' @param max_components Maximum number of mixture components.
+#' @param output_dir The output directory for any output files.
+#' @param output_file The output file.
+#' @param n_cores Number of CPU cores to use.
+#'
+#' @return A list of \code{ptsmlogistic} objects (one for each model ran).
+#'
+#' @export
 parallel_logistic_sampler <- function(site_data, ord = 0, iter, burn_in,
                                       min_components, max_components,
                                       output_dir = "./storm-output/",

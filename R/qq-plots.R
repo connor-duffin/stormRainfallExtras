@@ -1,5 +1,18 @@
+#' Compute the quantiles for a given period.
+#'
+#' @param sampler_results An output from running \code{logistic_sample}.
+#' @param y_sample A set of posterior predictive samples, from running
+#' \code{logistic_sample_y}.
+#' @param months A set of months corresponding to the given season.
+#' @param period_name The season name (Summer, Autumn, Winter, or Spring).
+#' @param probabilities A vector of probabilities to compute quantiles for.
+#' Defaults to 100 linearly spaced quantiles.
+#'
+#' @return A dataframe of quantiles (and quantiles of quantiles!).
+#' 
+#' @export
 qq_data_for_period <- function(sampler_results, y_sample, months, period_name,
-                               probabilities) {
+                               probabilities = ppoints(100)) {
   get_quantile_factor <- function(p) {
     output <- rep("0-10%", length(p))
     output[p > 0.10] <- "10-25%"

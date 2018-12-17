@@ -1,4 +1,4 @@
-#' Load site data.
+#' Load the rainfall data into a dataframe
 #'
 #' @param database_file A file that contains the metadata and site data for the
 #' desired site, or is a destination for the desired database.
