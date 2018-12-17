@@ -1,11 +1,9 @@
-# todo: completely separate functions for zeroes and monthly (from the top)
-
 #' Create the monthly summaries, for a given model.
 #'
 #' @param sampler_results a \code{ptsmlogistic} object.
 #' @param y_sample A set of posterior predictive samples.
 #' @param width The width of the posterior probability interval.
-#' @param n_cores Number of cores desired to be used. Recommend setting this as high as you can.
+#' @param n_cores Number of CPU cores to be used.
 #'
 #' @export
 get_monthly_summaries <- function(sampler_results, y_sample, width, n_cores = 1) {
@@ -134,7 +132,7 @@ plot_monthly_fits <- function(monthly_data, start_date, end_date, scales = "fixe
 
 #' Print the actual proportion of points within the PPI.
 #'
-#' @param summaries A dataframe that is the output from \code{\get_monthly_summaries}.
+#' @param summaries A dataframe that is the output from \code{get_monthly_summaries}.
 #'
 #' @export
 print_proportion <- function(summaries) {
@@ -154,11 +152,11 @@ print_proportion <- function(summaries) {
 
 #' Generate the monthly summary data for a given site.
 #'
-#' This is a wrapper for \code{\get_monthly_summaries}. Unless you have the
+#' This is a wrapper for \code{get_monthly_summaries}. Unless you have the
 #' posterior predictive samples ready to go, using this is probably the easiest
 #' way to get the monthly summary data.
 #'
-#' @param data_file An output file from \code{\parallel_logistic_sampler}.
+#' @param data_file An output file from \code{parallel_logistic_sampler}.
 #' @param int_width Width of the posterior probability interval.
 #' @param model List index of the desired model.
 #' @param samples Number of samples to take from the given model.
@@ -191,7 +189,7 @@ gen_summary_data <- function(data_file, int_width = 0.8, model = 1,
 
 #' Generate the monthly summary data for multiple sites
 #'
-#' This function applies \code{\gen_summary_data} over many sites.
+#' This function applies \code{gen_summary_data} over many sites.
 #' @param data_files A vector of datafiles to be read in.
 #' @param int_width Width of the posterior probability interval.
 #' @param model List index of the desired model.

@@ -1,5 +1,3 @@
-# todo: add different densities
-# todo: add formula to arguments
 # todo change filename for single model
 
 #' Run marginal MCMC sampler for the given site
@@ -21,7 +19,8 @@
 parallel_logistic_sampler <- function(site_data, ord = 0, iter, burn_in,
                                       min_components, max_components,
                                       output_dir = "./storm-output/",
-                                      output_file = NA, n_cores = 1) {
+                                      density = "gamma", output_file = NA,
+                                      n_cores = 1) {
   if (!dir.exists(output_dir)) {
     dir.create(output_dir, recursive = T)
   }
@@ -37,7 +36,7 @@ parallel_logistic_sampler <- function(site_data, ord = 0, iter, burn_in,
         burn_in,
         site_data,
         rainfall ~ trend + sine + cosine + dmi + sam + soi,
-        rep("gamma", x),
+        rep(density, x),
         order = ord
       )
     },
@@ -45,11 +44,17 @@ parallel_logistic_sampler <- function(site_data, ord = 0, iter, burn_in,
   )
 
   if (is.na(output_file)) {
-    model_name <- paste(
-      output_dir, "storm-logit-", min_components,
-      "-to-", max_components, "-comps.rds",
-      sep = ""
-    )
+    if (min_components == max_components) {
+      model_name <- paste(output_dir, "storm-logit-",
+        min_components, "-comp.rds", sep = ""
+      )
+    } else {
+      model_name <- paste(
+        output_dir, "storm-logit-", min_components,
+        "-to-", max_components, "-comps.rds",
+        sep = ""
+      )
+    }
   } else {
     model_name <- paste(output_dir, output_file, sep = "")
   }

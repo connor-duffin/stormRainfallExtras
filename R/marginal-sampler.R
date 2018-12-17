@@ -36,10 +36,15 @@ parallel_marginal_sampler <- function(site_data, iter, burn_in, min_components,
   )
 
   if (is.na(output_file)) {
-    model_name <- paste(output_dir, "storm-marg-", min_components, "-to-",
-      max_components, "-comps.rds",
-      sep = ""
-    )
+    if (min_components == max_components) {
+      model_name <- paste(output_dir, "storm-marg-", 
+        min_components, "-comp.rds", sep = ""
+      )
+    } else {
+      model_name <- paste(output_dir, "storm-marg-", min_components, "-to-",
+        max_components, "-comps.rds", sep = ""
+      )
+    }
   } else {
     model_name <- paste(output_dir, output_file, sep = "")
   }
