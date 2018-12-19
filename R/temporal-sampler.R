@@ -1,5 +1,3 @@
-# todo change filename for single model
-
 #' Run marginal MCMC sampler for the given site
 #'
 #' @param site_data A dataframe containing the rainfall measurements. This
@@ -20,7 +18,7 @@ parallel_logistic_sampler <- function(site_data, ord = 0, iter, burn_in,
                                       min_components, max_components,
                                       output_dir = "./storm-output/",
                                       density = "gamma", output_file = NA,
-                                      n_cores = 1) {
+                                      n_cores = 1, ...) {
   if (!dir.exists(output_dir)) {
     dir.create(output_dir, recursive = T)
   }
@@ -37,7 +35,8 @@ parallel_logistic_sampler <- function(site_data, ord = 0, iter, burn_in,
         site_data,
         rainfall ~ trend + sine + cosine + dmi + sam + soi,
         rep(density, x),
-        order = ord
+        order = ord,
+        ...
       )
     },
     mc.cores = n_cores
